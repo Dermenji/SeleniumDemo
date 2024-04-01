@@ -5,9 +5,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 public class LoginPage extends BasePage {
 
-    @FindBy(css = ".error-message-container")
+    @FindBy(id = "user-name")
     private WebElement usernameInput;
 
     @FindBy(id = "password")
@@ -15,6 +17,12 @@ public class LoginPage extends BasePage {
 
     @FindBy(id = "login-button")
     private WebElement loginButton;
+
+    @FindBy(css = ".error-message-container")
+    private WebElement errorMessageContainer;
+
+
+
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -33,5 +41,13 @@ public class LoginPage extends BasePage {
     }
 
 
+    public String getErrorMessage() {
+        return errorMessageContainer.getText();
+    }
 
+    public void loginAs(String userName, String password) {
+        setUsername(userName);
+        setPassword(password);
+        clickLoginButton();
+    }
 }
