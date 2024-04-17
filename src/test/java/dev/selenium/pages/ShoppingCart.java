@@ -1,5 +1,6 @@
 package dev.selenium.pages;
 
+import dev.selenium.driver.DriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,10 +11,6 @@ public class ShoppingCart extends BasePage{
 
     @FindBy(css = ".cart_button")
     private List<WebElement> listOfRemoveButtons;
-
-    public ShoppingCart(WebDriver driver) {
-        super(driver);
-    }
 
     public boolean isItemAdded() {
         if(listOfRemoveButtons.size() > 0) {

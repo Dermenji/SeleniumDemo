@@ -16,10 +16,6 @@ public class ProductsPage extends BasePage {
     private WebElement shoppingCartBadge;
 
 
-    public ProductsPage (WebDriver driver) {
-        super(driver);
-    }
-
     public String getPageTitle() {
         return pageTitle.getText();
     }
@@ -29,11 +25,13 @@ public class ProductsPage extends BasePage {
     }
 
     public void openShoppingCart() {
+
+        waitForElementToBeVisible(shoppingCartBadge);
         shoppingCartBadge.click();
     }
 
     public HeaderComponent header () {
-        return new HeaderComponent(driver);
+        return new HeaderComponent();
     }
 
 }
