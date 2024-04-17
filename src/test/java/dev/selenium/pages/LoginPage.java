@@ -1,12 +1,9 @@
 package dev.selenium.pages;
 
-import io.qameta.allure.Step;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
 
 public class LoginPage extends BasePage {
 
@@ -22,12 +19,12 @@ public class LoginPage extends BasePage {
     @FindBy(css = ".error-message-container")
     private WebElement errorMessageContainer;
 
-    @Step("Set username")
+
     public void setUsername(String username) {
         usernameInput.sendKeys(username);
     }
 
-    @Step("Set password")
+
     public void setPassword(String password) {
         passwordInput.sendKeys(password);
     }

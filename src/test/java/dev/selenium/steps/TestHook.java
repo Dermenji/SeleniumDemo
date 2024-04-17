@@ -1,13 +1,13 @@
-package dev.selenium.base;
+package dev.selenium.steps;
 
 import dev.selenium.driver.DriverFactory;
-import io.qameta.allure.Allure;
-import org.apache.commons.io.FileUtils;
+
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -19,20 +19,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Date;
 import java.util.Properties;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-public class MainTest {
+public class TestHook {
   //  public WebDriver driver;
     private String url;
     private int implicitWait;
     private String browser;
 
 
-    @BeforeMethod
+    @Before
     public void setUp() {
        setupBrowserDriver();
        loadUrl();
@@ -66,21 +65,15 @@ public class MainTest {
         driver.get(url);
     }
 
-    @AfterMethod
-    public void tearDown(ITestResult result){
+    @After
+    public void tearDown(Scenario scenario){
         WebDriver driver = DriverFactory.getDriver();
-        if (ITestResult.FAILURE == result.getStatus()) {
-            TakesScreenshot ts = (TakesScreenshot)driver;
-            File source = ts.getScreenshotAs(OutputType.FILE);
-            String timestamp = new SimpleDateFormat("yyyy_MM_dd__hh_mm_ss").format(new Date());
-            String fileName = result.getName() + "_" + timestamp + ".png";
-            Path path = Paths.get("./Screenshots", fileName);
-            try {
-                Files.copy(source.toPath(), path);
-                Allure.addAttachment("Screenshot on Failure", "image/png", Files.newInputStream(path), ".png");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+        if (scenario.isFailed()) {
+          TakesScreenshot ts = (TakesScreenshot) driver;
+          byte[] screenshot = ts.getScreenshotAs(OutputType.BYTES);
+          scenario.attach(screenshot, "image/png",
+                  "Screenshot_" + new SimpleDateFormat("yyyy_MM_dd__hh_mm_ss").format(new Date()));
         }
 
         DriverFactory.quitDriver();

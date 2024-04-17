@@ -1,13 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite name="Test Demo Suite" parallel="classes" thread-count="4">
+<suite name="Test Demo Suite" parallel="methods" thread-count="4">
     <test name="Selenium Course Suite tests">
-        <packages>
-            <package name="dev.selenium.tests.*"/>
-        </packages>
+        <classes>
+            <class name="dev.selenium.CucumberTestNGRunner"/>
+        </classes>
     </test>
-    <listeners>
-        <listener class-name="org.testng.reporters.XMLReporter"/>
-    </listeners>
 </suite>
